@@ -4,6 +4,7 @@ import com.uade.repartidorback.entities.User;
 import com.uade.repartidorback.models.InfoResponse;
 import com.uade.repartidorback.models.LoginRequest;
 import com.uade.repartidorback.services.UserDetailsImpl;
+import com.uade.repartidorback.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,12 @@ public class UserController {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    UserService userService;
+
     @PostMapping("/login")
     public ResponseEntity<?> autenticarUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        return ResponseEntity.ok().body(new InfoResponse(HttpStatus.OK.value(),userDetails, "Usuario correcto"));
+        return userService.registrarUser(loginRequest);
     }
 
     @GetMapping("/payments")

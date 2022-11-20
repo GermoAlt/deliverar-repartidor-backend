@@ -1,8 +1,9 @@
 package com.uade.repartidorback.models;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-public class LoginRequest {
+public class SignupRequest {
   @NotBlank
   private String username;
 
