@@ -8,11 +8,11 @@ public class User {
     @Id
     private String id;
     private String username;
-    private String password;
+    private String email;
 
-    public User(String username, String password) {
+    public User(String username, String email) {
         this.username = username;
-        this.password = password;
+        this.email = email;
     }
 
     public String getId() {
@@ -31,11 +31,11 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

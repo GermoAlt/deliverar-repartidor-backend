@@ -23,12 +23,9 @@ public class UserServiceImpl implements UserService {
 
 
     public ResponseEntity registrarUser (LoginRequest loginRequest){
-        if (userRepository.existsByUsername(loginRequest.getUsername())) {
-            return new ResponseEntity
-                    (new InfoResponse(HttpStatus.UNAUTHORIZED.value(),loginRequest.getUsername(),"Error: email ya registrado"),
-                            HttpStatus.UNAUTHORIZED);
+        if (userRepository.existsByEmail(loginRequest.getUsername())) {
+            return ResponseEntity.ok().body(new InfoResponse(HttpStatus.OK.value(),userRepository.findByEmail(loginRequest.getEmail()), "Usuario encontrado"));
         }
-
         User user = new User(loginRequest.getUsername(), loginRequest.getEmail());
         userRepository.save(user);
         return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), user,"User registrado"));
