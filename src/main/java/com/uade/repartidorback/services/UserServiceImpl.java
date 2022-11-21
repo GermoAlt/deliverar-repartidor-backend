@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
 
     public ResponseEntity registrarUser (LoginRequest loginRequest){
-        if (userRepository.existsByEmail(loginRequest.getUsername())) {
+        if (userRepository.existsByEmail(loginRequest.getEmail())) {
             return ResponseEntity.ok().body(new InfoResponse(HttpStatus.OK.value(),userRepository.findByEmail(loginRequest.getEmail()), "Usuario encontrado"));
         }
         User user = new User(loginRequest.getUsername(), loginRequest.getEmail());
