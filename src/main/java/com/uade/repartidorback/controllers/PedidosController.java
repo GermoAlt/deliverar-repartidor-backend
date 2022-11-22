@@ -19,8 +19,8 @@ public class PedidosController {
         return pedidoService.obtenerPedidos();
     }
 
-    @GetMapping("/")
-    public ResponseEntity obtenerPedidosPorUser (@RequestParam String idUser){
+    @GetMapping("/{idUser}")
+    public ResponseEntity obtenerPedidosPorUser (@PathVariable String idUser){
         return pedidoService.obtenerOrdenesCompletadas(idUser, EstadoEnum.ENTREGADO.name());
     }
 
