@@ -30,9 +30,10 @@ public class MensajeServiceImpl implements MensajeService {
     public ResponseEntity guardarMensaje(Mensaje mensaje) {
         Gson gson = new Gson();
         JsonObject jsonObject = new Gson().fromJson(mensaje.getContenido(), JsonObject.class);
-//        if(jsonObject.get("tipo").getAsString().equals(TipoEnum.PEDIDO.name().toLowerCase())){
+        if(jsonObject.get("tipo").getAsString().equals(TipoEnum.PEDIDO.name().toLowerCase())){
             Orden pedido = gson.fromJson(jsonObject.getAsJsonObject("mensaje"), Orden.class);
             return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), pedidoRepository.save(pedido),"Pedido registrado"));
-//        }
+        }
+        return null;
     }
 }
