@@ -53,4 +53,12 @@ public class PedidoServiceImpl implements PedidoService {
         return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), orden,"Orden registrada"));
     }
 
+    @Override
+    public ResponseEntity updatePedidoEnCurso(Orden orden) {
+        Optional<Orden> pedidoARetirar = pedidoRepository.findById(orden.getId());
+        pedidoARetirar.get().setOrderStatus(orden.getOrderStatus());
+        pedidoRepository.save(pedidoARetirar.get());
+        return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), orden,"Orden modificada"));
+    }
+
 }
