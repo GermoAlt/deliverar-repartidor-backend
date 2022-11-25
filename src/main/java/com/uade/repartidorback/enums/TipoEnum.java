@@ -3,6 +3,7 @@ package com.uade.repartidorback.enums;
 public enum TipoEnum {
     PEDIDO ("pedido"),
     ACTUALIZACION_PEDIDO ("actualizacion-pedido"),
+    ACTUALIZACION_UBICACION ("actualizacion-ubicacion"),
     REINTEGRO ("REINTEGRO"),
     RECLAMO ("RECLAMO");
 

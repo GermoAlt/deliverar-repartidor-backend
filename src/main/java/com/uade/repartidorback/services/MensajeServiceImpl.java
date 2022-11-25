@@ -32,7 +32,6 @@ public class MensajeServiceImpl implements MensajeService {
         Gson gson = new Gson();
         JsonObject jsonObject = new Gson().fromJson(mensaje.getContenido(), JsonObject.class);
         CanalEnum canalEnum = CanalEnum.valueOf(mensaje.getEmisor().toUpperCase());
-        canalEnum = CanalEnum.FRANQUICIA;
 
         switch (canalEnum){
             case CORE :
@@ -45,6 +44,7 @@ public class MensajeServiceImpl implements MensajeService {
                         OrdenFranquicia ordenFranquicia = gson.fromJson(jsonObject.getAsJsonObject("mensaje"), OrdenFranquicia.class);
                         pedido.setOrderId(ordenFranquicia.getOrder_id());
                         pedido.setOrderStatus(ordenFranquicia.getOrder_status());
+                        pedido.setOrderType("PEDIDO");
                         pedido.setName("McDonalds");
                         pedido.setFranchise_address(ordenFranquicia.getFranchise_address());
                         pedido.setClient_address(ordenFranquicia.getClient_address());
@@ -79,7 +79,7 @@ public class MensajeServiceImpl implements MensajeService {
                     }
                 }
             case OPERADOR:
-                if(jsonObject.getAsJsonObject("orderType").equals(TipoEnum.RECLAMO) || jsonObject.getAsJsonObject("orderType").equals(TipoEnum.REINTEGRO)) {
+                if(jsonObject.get("orderType").getAsString().equals(TipoEnum.RECLAMO.name()) || jsonObject.get("orderType").getAsString().equals(TipoEnum.REINTEGRO.name())) {
                     Orden pedido = gson.fromJson(jsonObject, Orden.class);
                     return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), pedidoRepository.save(pedido), "Orden registrada"));
                 }
