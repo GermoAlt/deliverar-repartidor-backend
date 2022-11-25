@@ -67,6 +67,8 @@ public class PedidoServiceImpl implements PedidoService {
         Optional<Orden> pedidoARetirar = pedidoRepository.findById(orden.getId());
         pedidoARetirar.get().setOrderStatus(orden.getOrderStatus());
         pedidoRepository.save(pedidoARetirar.get());
+//        RestTemplateFactory restTemplateFactory = new RestTemplateFactory();
+//        ResponseEntity response = restTemplateFactory.responseEntity();
         return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), orden,"Orden modificada"));
     }
 
