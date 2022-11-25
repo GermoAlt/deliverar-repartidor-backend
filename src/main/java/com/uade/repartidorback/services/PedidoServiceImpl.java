@@ -26,12 +26,13 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public ResponseEntity obtenerPedidos () {
-        List<Orden> pedidosDisponibles = pedidoRepository.findOrdensByOrderStatus(EstadoEnum.RETIRAR.name());
+        List<Orden> pedidosDisponibles = pedidoRepository.findOrdensByOrderStatusAndUser(EstadoEnum.RETIRAR.name(), null);
         List<Orden> reintegros = pedidoRepository.findOrdensByOrderType(TipoEnum.REINTEGRO.label);
         List<Orden> reclamos = pedidoRepository.findOrdensByOrderType(TipoEnum.RECLAMO.label);
         List<Orden> ordenes = new ArrayList<>();
         ordenes.addAll(reclamos);
         ordenes.addAll(reintegros);
+        ordenes.addAll(pedidosDisponibles);
         String message = "Pedidos encontrados";
         if(pedidosDisponibles.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new InfoResponse(HttpStatus.NOT_FOUND.value(), ordenes,"No hay pedidos disponibles"));
