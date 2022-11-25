@@ -33,7 +33,7 @@ public class MensajeServiceImpl implements MensajeService {
         Gson gson = new Gson();
         JsonObject jsonObject = new Gson().fromJson(mensaje.getContenido(), JsonObject.class);
         CanalEnum canalEnum = CanalEnum.valueOf(mensaje.getEmisor().toUpperCase());
-//        canalEnum = CanalEnum.OPERADOR;
+        canalEnum = CanalEnum.OPERADOR;
 
         switch (canalEnum){
             case CORE :
@@ -46,8 +46,10 @@ public class MensajeServiceImpl implements MensajeService {
                     }
                 }
             case OPERADOR:
-                Orden pedido = gson.fromJson(jsonObject, Orden.class);
-                return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), pedidoRepository.save(pedido), "Orden registrada"));
+                if(jsonObject.getAsJsonObject("orderType").equals(TipoEnum.RECLAMO) || jsonObject.getAsJsonObject("orderType").equals(TipoEnum.REINTEGRO)) {
+                    Orden pedido = gson.fromJson(jsonObject, Orden.class);
+                    return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), pedidoRepository.save(pedido), "Orden registrada"));
+                }
         }
         return null;
     }

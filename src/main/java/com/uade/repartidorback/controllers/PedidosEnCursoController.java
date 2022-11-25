@@ -19,12 +19,12 @@ public class PedidosEnCursoController {
     }
 
     @GetMapping("/")
-    public ResponseEntity pedidoEnCursoPorUser (@RequestParam int idUser){
-        return null;
+    public ResponseEntity pedidoEnCursoPorUser (@RequestParam String idUser){
+        return pedidoService.pedidoEnCursoUser(idUser);
     }
 
     @PutMapping("/")
     public ResponseEntity updatePedido (@RequestBody Orden pedido) {
-        return null;
+        return pedidoService.updatePedidoEnCurso(pedido);
     }
 }

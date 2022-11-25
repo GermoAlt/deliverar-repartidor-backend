@@ -9,4 +9,5 @@ public interface PedidoService {
     ResponseEntity obtenerOrdenesCompletadas(String idUser, String estado);
     ResponseEntity nuevoPedidoEnCurso (Orden orden);
     ResponseEntity updatePedidoEnCurso (Orden orden);
+    ResponseEntity pedidoEnCursoUser(String idUser);
 }
