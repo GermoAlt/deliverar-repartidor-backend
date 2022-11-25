@@ -18,8 +18,8 @@ public class PedidosEnCursoController {
         return pedidoService.nuevoPedidoEnCurso(pedido);
     }
 
-    @GetMapping("/")
-    public ResponseEntity pedidoEnCursoPorUser (@RequestParam String idUser){
+    @GetMapping("/{idUser}")
+    public ResponseEntity pedidoEnCursoPorUser (@PathVariable String idUser){
         return pedidoService.pedidoEnCursoUser(idUser);
     }
 
