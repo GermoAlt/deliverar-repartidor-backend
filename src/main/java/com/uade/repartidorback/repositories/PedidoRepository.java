@@ -8,8 +8,7 @@ import java.util.Optional;
 
 public interface PedidoRepository extends MongoRepository<Orden, String> {
   Optional<Orden> findById (String id);
-  List<Orden> findPedidosByStatus (String disponible);
-  List<Orden> findOrdensByUser_IdAndStatus (String idUser, String estado);
-  Boolean existsByNroPedido (int nroPedido);
+  List<Orden> findOrdensByOrderStatus (String disponible);
+  List<Orden> findOrdensByUser_IdAndOrderStatus (String idUser, String estado);
 
 }

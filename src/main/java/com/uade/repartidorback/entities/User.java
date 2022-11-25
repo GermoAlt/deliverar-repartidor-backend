@@ -1,11 +1,13 @@
 package com.uade.repartidorback.entities;
 
+import com.google.gson.annotations.SerializedName;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public class User {
     @Id
+    @SerializedName("user_id")
     private String id;
     private String username;
     private String email;
@@ -13,6 +15,10 @@ public class User {
     public User(String username, String email) {
         this.username = username;
         this.email = email;
+    }
+
+    public User() {
+
     }
 
     public String getId() {

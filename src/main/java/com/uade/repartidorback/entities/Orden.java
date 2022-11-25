@@ -7,22 +7,22 @@ import java.util.List;
 
 @Document(collection = "orders")
 public class Orden {
-    private String Id;
+    private String id;
     private String name;
     private String orderType;
-    private int nroPedido;
-    private String status;
+    private int orderId;
+    private String orderStatus;
     private String franchise_address;
     private String client_address;
     private List <Platos> meals;
     private User user;
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -41,20 +41,20 @@ public class Orden {
         this.orderType = orderType;
     }
 
-    public int getNroPedido() {
-        return nroPedido;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setNroPedido(int nroPedido) {
-        this.nroPedido = nroPedido;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
-    public String getStatus() {
-        return status;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public String getFranchise_address() {

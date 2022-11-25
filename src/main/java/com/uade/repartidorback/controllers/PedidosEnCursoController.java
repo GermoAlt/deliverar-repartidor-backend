@@ -15,7 +15,7 @@ public class PedidosEnCursoController {
 
     @PostMapping("/")
     public ResponseEntity nuevoPedidoEnCurso (@RequestBody Orden pedido){
-        return null;
+        return pedidoService.nuevoPedidoEnCurso(pedido);
     }
 
     @GetMapping("/")

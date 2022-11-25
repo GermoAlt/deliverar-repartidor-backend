@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.uade.repartidorback.entities.Orden;
 import com.uade.repartidorback.entities.User;
+import com.uade.repartidorback.enums.CanalEnum;
+import com.uade.repartidorback.enums.EstadoEnum;
 import com.uade.repartidorback.enums.TipoEnum;
 import com.uade.repartidorback.models.InfoResponse;
 import com.uade.repartidorback.models.LoginRequest;
@@ -30,9 +32,22 @@ public class MensajeServiceImpl implements MensajeService {
     public ResponseEntity guardarMensaje(Mensaje mensaje) {
         Gson gson = new Gson();
         JsonObject jsonObject = new Gson().fromJson(mensaje.getContenido(), JsonObject.class);
-        if(jsonObject.get("tipo").getAsString().equals(TipoEnum.PEDIDO.name().toLowerCase())){
-            Orden pedido = gson.fromJson(jsonObject.getAsJsonObject("mensaje"), Orden.class);
-            return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), pedidoRepository.save(pedido),"Pedido registrado"));
+        CanalEnum canalEnum = CanalEnum.valueOf(mensaje.getEmisor().toUpperCase());
+//        canalEnum = CanalEnum.OPERADOR;
+
+        switch (canalEnum){
+            case CORE :
+                return null;
+            case FRANQUICIA:
+                if(jsonObject.get("tipo").getAsString().equals(TipoEnum.ACTUALIZACION_PEDIDO.label)){
+                    if(jsonObject.getAsJsonObject("mensaje").get("orderStatus").getAsString().equals(EstadoEnum.RETIRAR.name())) {
+                        Orden pedido = gson.fromJson(jsonObject.getAsJsonObject("mensaje"), Orden.class);
+                        return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), pedidoRepository.save(pedido), "Pedido registrado"));
+                    }
+                }
+            case OPERADOR:
+                Orden pedido = gson.fromJson(jsonObject, Orden.class);
+                return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), pedidoRepository.save(pedido), "Orden registrada"));
         }
         return null;
     }

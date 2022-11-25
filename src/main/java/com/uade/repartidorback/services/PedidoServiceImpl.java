@@ -23,7 +23,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public ResponseEntity obtenerPedidos () {
-        List<Orden> pedidosDisponibles = pedidoRepository.findPedidosByStatus(EstadoEnum.DISPONIBLE.name());
+        List<Orden> pedidosDisponibles = pedidoRepository.findOrdensByOrderStatus(EstadoEnum.RETIRAR.name());
         String message = "Pedidos encontrados";
         if(pedidosDisponibles.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new InfoResponse(HttpStatus.NOT_FOUND.value(), pedidosDisponibles,"No hay pedidos disponibles"));
@@ -33,7 +33,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public ResponseEntity obtenerOrdenesCompletadas(String idUser, String estado) {
-        List<Orden> ordenes = pedidoRepository.findOrdensByUser_IdAndStatus(idUser, EstadoEnum.ENTREGADO.name());
+        List<Orden> ordenes = pedidoRepository.findOrdensByUser_IdAndOrderStatus(idUser, EstadoEnum.ENTREGADO.name());
         String message = "Pedidos encontrados";
         if(ordenes.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new InfoResponse(HttpStatus.NOT_FOUND.value(), ordenes,"No hay pedidos disponibles"));
@@ -43,12 +43,13 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public ResponseEntity nuevoPedidoEnCurso(Orden orden) {
-//        if (pedidoRepository.existsByNroPedido(orden.getNroPedido())) {
-//            return new ResponseEntity
-//                    (new InfoResponse(HttpStatus.CONFLICT.value(),orden.getNroPedido(),"Error: email ya registrado"),
-//                            HttpStatus.CONFLICT);
-//        }
-        pedidoRepository.save(orden);
+        Optional<Orden> pedidoARetirar = pedidoRepository.findById(orden.getId());
+        pedidoARetirar.get().setOrderStatus(orden.getOrderStatus());
+        User repartidor = new User();
+        repartidor.setId(orden.getUser().getId());
+        repartidor.setUsername(orden.getUser().getUsername());
+        pedidoARetirar.get().setUser(repartidor);
+        pedidoRepository.save(pedidoARetirar.get());
         return ResponseEntity.created(null).body(new InfoResponse(HttpStatus.CREATED.value(), orden,"Orden registrada"));
     }
 

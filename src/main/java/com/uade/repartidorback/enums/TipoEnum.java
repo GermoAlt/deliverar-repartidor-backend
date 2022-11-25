@@ -5,6 +5,9 @@ public enum TipoEnum {
     ACTUALIZACION_PEDIDO ("actualizacion-pedido");
 
 
-    TipoEnum(String s) {
+    public final String label;
+
+    private TipoEnum (String label) {
+        this.label = label;
     }
 }
